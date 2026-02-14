@@ -1,163 +1,99 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>latifa liesbiana</title>
+    <title>Haki Werda 3D - Animated</title>
     <style>
-        body {
-            background-color: #1a1a1a;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .message {
-            color: #ff0a54;
-            font-size: 3em;
-            font-weight: bold;
-            margin-bottom: 50px;
-            opacity: 0;
-            animation: fadeInText 2s ease-out 3s forwards;
-            text-shadow: 0 0 15px rgba(255,10,84,0.9);
-        }
-
-        .flower-container {
-            position: relative;
-            transform: translateY(100vh);
-            animation: riseUp 3s ease-out forwards;
-        }
-
-        .stem {
-            width: 8px;
-            height: 150px;
-            background: linear-gradient(#2d5a27, #1e3c1a);
-            position: absolute;
-            bottom: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 4px;
-            z-index: -1;
-        }
-
-        .flower {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .petal {
-            position: absolute;
-            background: linear-gradient(to top, #c00, #ff4d6d); /* تدرج لوني جديد للبتلات */
-            width: 60px;
-            height: 80px;
-            border-radius: 50% 50% 40% 40% / 70% 70% 30% 30%; /* شكل بتلة مدورة اكثر */
-            transform-origin: bottom center;
-            opacity: 0; /* تبدا مخفية تماما */
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            animation: bloomNew 3s ease-in-out forwards; /* انيميشن جديد للتفتح */
-        }
-
-        /* توزيع البتلات في طبقات وزوايا مختلفة */
-        .petal:nth-child(1) { --angle: 0deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2s; z-index: 5; }
-        .petal:nth-child(2) { --angle: 45deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.1s; z-index: 5;}
-        .petal:nth-child(3) { --angle: 90deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.2s; z-index: 5;}
-        .petal:nth-child(4) { --angle: 135deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.3s; z-index: 5;}
-        .petal:nth-child(5) { --angle: 180deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.4s; z-index: 5;}
-        .petal:nth-child(6) { --angle: 225deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.5s; z-index: 5;}
-        .petal:nth-child(7) { --angle: 270deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.6s; z-index: 5;}
-        .petal:nth-child(8) { --angle: 315deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.7s; z-index: 5;}
-
-        /* طبقة ثانية من البتلات */
-        .petal:nth-child(9) { --angle: 20deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.8s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
-        .petal:nth-child(10) { --angle: 70deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.9s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
-        .petal:nth-child(11) { --angle: 120deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
-        .petal:nth-child(12) { --angle: 170deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3.1s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
-        .petal:nth-child(13) { --angle: 220deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3.2s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
-        .petal:nth-child(14) { --angle: 270deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3.3s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
-        .petal:nth-child(15) { --angle: 320deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3.4s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
-
-        .center {
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle at center, #ffee99, #ffb703);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            box-shadow: 0 0 20px rgba(255,238,153,0.8);
-            opacity: 0;
-            animation: fadeInCenter 1.5s ease-out 4s forwards;
-        }
-
-        /* حركات جديدة */
-        @keyframes riseUp {
-            0% { transform: translateY(100vh); }
-            100% { transform: translateY(0); }
-        }
-
-        @keyframes bloomNew {
-            0% {
-                transform: rotate(var(--angle)) translateY(0px) scale(0);
-                opacity: 0;
-            }
-            70% {
-                opacity: 1;
-                transform: rotate(var(--angle)) translateY(-20px) scale(1);
-            }
-            100% {
-                transform: rotate(var(--angle)) translateY(-25px) scale(1); /* تعديل بسيط في translateY باش تبقا مكوبة */
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInText {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInCenter {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-
+        body { margin: 0; background: #000; overflow: hidden; }
+        #text { position: absolute; top: 20px; width: 100%; text-align: center; color: #ff0a54; font-family: sans-serif; font-size: 30px; z-index: 10; }
     </style>
 </head>
 <body>
+    <div id="text">HAKI WERDA ALWREDA</div>
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <script>
+        window.onload = function() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
 
-    <div class="message">Anchdek Anhwik</div>
+            // إضاءة قوية
+            const light = new THREE.PointLight(0xffffff, 1.5, 100);
+            light.position.set(5, 5, 5);
+            scene.add(light);
+            scene.add(new THREE.AmbientLight(0x404040, 2));
 
-    <div class="flower-container">
-        <div class="stem"></div>
-        <div class="flower">
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="petal"></div>
-            <div class="center"></div>
-        </div>
-    </div>
+            // --- صنع الوردة ---
+            const flowerGroup = new THREE.Group();
+            const stem = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.05, 0.05, 4, 32),
+                new THREE.MeshStandardMaterial({ color: 0x1e3c1a })
+            );
+            flowerGroup.add(stem);
 
+            const petalMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+            for (let i = 0; i < 12; i++) {
+                const petal = new THREE.Mesh(new THREE.SphereGeometry(0.4, 32, 32), petalMat);
+                petal.scale.set(1, 1.6, 0.2);
+                const angle = (i / 12) * Math.PI * 2;
+                petal.position.set(Math.cos(angle) * 0.4, 2, Math.sin(angle) * 0.4);
+                petal.rotation.y = -angle;
+                petal.rotation.x = 0.6;
+                flowerGroup.add(petal);
+            }
+
+            const center = new THREE.Mesh(new THREE.SphereGeometry(0.3, 32, 32), new THREE.MeshStandardMaterial({color: 0xffd700}));
+            center.position.y = 2;
+            flowerGroup.add(center);
+            scene.add(flowerGroup);
+
+            // --- صنع الرجل ---
+            const man = new THREE.Group();
+            const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.4, 1.2, 4, 16), new THREE.MeshStandardMaterial({color: 0x111111}));
+            const head = new THREE.Mesh(new THREE.SphereGeometry(0.35, 32, 32), new THREE.MeshStandardMaterial({color: 0xf7dcbb}));
+            head.position.y = 1.2;
+            man.add(body); 
+            man.add(head);
+            scene.add(man);
+
+            camera.position.z = 7;
+
+            // متغيرات للحركة
+            let time = 0;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.05;
+
+                // 1. حركة الوردة: كتدور وكتميل شوية
+                flowerGroup.rotation.y += 0.02;
+                flowerGroup.rotation.z = Math.sin(time) * 0.1; // تميل خفيف
+                flowerGroup.position.set(2, -1 + Math.sin(time) * 0.2, 0); // كطلع وتهبط شوية
+
+                // 2. حركة الرجل: كيمشي لليمن واليسار
+                man.position.x = Math.sin(time * 0.5) * 3; // كيتحرك افقياً
+                man.position.y = -1 + Math.abs(Math.cos(time * 2)) * 0.3; // كينقز شوية (حركة المشي)
+                
+                // تدوير الرجل باش يشوف جيهة فين غادي
+                if (Math.cos(time * 0.5) > 0) {
+                    man.rotation.y = Math.PI / 2;
+                } else {
+                    man.rotation.y = -Math.PI / 2;
+                }
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // ملائمة الشاشة عند تغيير الحجم
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+    </script>
 </body>
-
 </html>

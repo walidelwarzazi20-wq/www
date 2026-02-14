@@ -1,84 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>Haki Werda 3D Fix</title>
+    <title>Haki Werda - Final Version</title>
     <style>
-        body { margin: 0; background-color: #111; overflow: hidden; }
-        #text { position: absolute; top: 10px; width: 100%; text-align: center; color: white; font-family: sans-serif; z-index: 100; }
-        #status { position: absolute; bottom: 10px; left: 10px; color: lime; font-family: monospace; z-index: 100; }
+        body {
+            background-color: #050505;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        /* خلفية النجوم */
+        .stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #050505 100%);
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: moveStar linear infinite;
+        }
+
+        .message {
+            color: #ff0a54;
+            font-size: 2.8rem;
+            font-weight: bold;
+            text-shadow: 0 0 20px #ff0a54;
+            position: absolute;
+            top: 40px;
+            z-index: 10;
+        }
+
+        .scene {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        /* الرجل */
+        .human {
+            position: absolute;
+            left: 15%;
+            bottom: 20px;
+            width: 120px;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .head { width: 55px; height: 55px; background: #f7dcbb; border-radius: 50%; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.3); }
+        .torso { width: 70px; height: 110px; background: #1a1a1a; border-radius: 35%; margin-top: -5px; }
+
+        /* الوردة المركزية (مرفوعة وبجذور وأوراق) */
+        .main-flower-box {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: translateY(-20px); /* طلعات الفوق */
+        }
+
+        .flower-head {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .petal {
+            position: absolute;
+            background: linear-gradient(to top, #ff0000, #ff4d6d);
+            width: 45px; height: 75px; border-radius: 50% 50% 40% 40%;
+            transform-origin: bottom center;
+            opacity: 0;
+            animation: bloomGrow 2s ease-out forwards;
+        }
+
+        .stem {
+            width: 10px;
+            height: 250px;
+            background: linear-gradient(#2d5a27, #1e3c1a);
+            border-radius: 5px;
+            position: relative;
+            z-index: -1;
+            margin-top: -10px;
+        }
+
+        /* أوراق كثيرة خضراء */
+        .leaf {
+            position: absolute;
+            width: 50px; height: 20px;
+            background: linear-gradient(to right, #3a7d32, #1e3c1a);
+            border-radius: 0 50% 50% 0;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.5s;
+        }
+        .leaf.right { left: 10px; transform: rotate(20deg); }
+        .leaf.left { right: 10px; transform: rotate(160deg); }
+        .l1 { top: 40px; } .l2 { top: 80px; } .l3 { top: 120px; } .l4 { top: 160px; }
+
+        .center-glow {
+            width: 30px; height: 30px; background: radial-gradient(circle, #ffee99, #ffb703);
+            border-radius: 50%; position: absolute; z-index: 5; box-shadow: 0 0 20px #ffb703;
+            opacity: 0; animation: fadeIn 1s forwards 1.8s;
+        }
+
+        @keyframes bloomGrow {
+            to { transform: rotate(var(--r)) translateY(-30px) scale(1); opacity: 1; }
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes moveStar { from { transform: translateY(100vh); opacity: 0; } to { transform: translateY(-10vh); opacity: 0.5; } }
+
+        /* توزيع البتلات */
+        .p1 { --r: 0deg; animation-delay: 0.1s; } .p2 { --r: 45deg; animation-delay: 0.2s; }
+        .p3 { --r: 90deg; animation-delay: 0.3s; } .p4 { --r: 135deg; animation-delay: 0.4s; }
+        .p5 { --r: 180deg; animation-delay: 0.5s; } .p6 { --r: 225deg; animation-delay: 0.6s; }
+        .p7 { --r: 270deg; animation-delay: 0.7s; } .p8 { --r: 315deg; animation-delay: 0.8s; }
     </style>
 </head>
 <body>
-    <div id="text"><h1>HAKI WERDA ALWREDA</h1></div>
-    <div id="status">جاري التحميل...</div>
-
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-
+    <div class="stars-container" id="stars"></div>
+    <div class="message">HAKI WERDA ALWREDA</div>
+    <div class="scene">
+        <div class="human">
+            <div class="head"></div>
+            <div class="torso"></div>
+        </div>
+        <div class="main-flower-box">
+            <div class="flower-head">
+                <div class="petal p1"></div><div class="petal p2"></div>
+                <div class="petal p3"></div><div class="petal p4"></div>
+                <div class="petal p5"></div><div class="petal p6"></div>
+                <div class="petal p7"></div><div class="petal p8"></div>
+                <div class="center-glow"></div>
+            </div>
+            <div class="stem">
+                <div class="leaf right l1"></div><div class="leaf left l2"></div>
+                <div class="leaf right l3"></div><div class="leaf left l4"></div>
+            </div>
+        </div>
+    </div>
     <script>
-        window.onload = function() {
-            const status = document.getElementById('status');
-            
-            // تأكيد اشتغال المكتبة
-            if (typeof THREE === 'undefined') {
-                status.innerHTML = "خطأ: لم يتم تحميل مكتبة Three.js. تأكد من الأنترنت!";
-                status.style.color = "red";
-                return;
-            } else {
-                status.innerHTML = "المكتبة جاهزة - العرض شغال";
-            }
-
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
-
-            // إضاءة قوية
-            const ambient = new THREE.AmbientLight(0xffffff, 1);
-            scene.add(ambient);
-            const point = new THREE.PointLight(0xffffff, 1);
-            point.position.set(10, 10, 10);
-            scene.add(point);
-
-            // --- صنع الوردة ---
-            const flower = new THREE.Group();
-            const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3), new THREE.MeshStandardMaterial({color: 0x00ff00}));
-            flower.add(stem);
-            
-            const head = new THREE.Mesh(new THREE.TorusKnotGeometry(0.5, 0.2), new THREE.MeshStandardMaterial({color: 0xff0000}));
-            head.position.y = 1.5;
-            flower.add(head);
-            scene.add(flower);
-
-            // --- صنع الرجل (على شكل مكعبات باش يبان دغيا) ---
-            const man = new THREE.Group();
-            const body = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1, 0.4), new THREE.MeshStandardMaterial({color: 0x0000ff}));
-            const manHead = new THREE.Mesh(new THREE.SphereGeometry(0.3), new THREE.MeshStandardMaterial({color: 0xffcc99}));
-            manHead.position.y = 0.8;
-            man.add(body);
-            man.add(manHead);
-            scene.add(man);
-
-            camera.position.z = 8;
-
-            let t = 0;
-            function animate() {
-                requestAnimationFrame(animate);
-                t += 0.05;
-
-                // تحريك الوردة
-                flower.position.x = 2;
-                flower.rotation.y += 0.05;
-
-                // تحريك الرجل (كيتمشى يمين ويسار)
-                man.position.x = Math.sin(t * 0.5) * 4;
-                man.position.y = Math.abs(Math.sin(t * 2)) * 0.2 - 1; // كينقز شوية
-                
-                renderer.render(scene, camera);
-            }
-            animate();
-        };
+        const container = document.getElementById('stars');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 'px';
+            star.style.width = size; star.style.height = size;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(star);
+        }
     </script>
 </body>
 </html>

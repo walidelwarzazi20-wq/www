@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>latifa liesbiana</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .message {
+            color: #ff0a54;
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInText 2s ease-out 3s forwards;
+            text-shadow: 0 0 15px rgba(255,10,84,0.9);
+        }
+
+        .flower-container {
+            position: relative;
+            transform: translateY(100vh);
+            animation: riseUp 3s ease-out forwards;
+        }
+
+        .stem {
+            width: 8px;
+            height: 150px;
+            background: linear-gradient(#2d5a27, #1e3c1a);
+            position: absolute;
+            bottom: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
+            z-index: -1;
+        }
+
+        .flower {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .petal {
+            position: absolute;
+            background: linear-gradient(to top, #c00, #ff4d6d); /* تدرج لوني جديد للبتلات */
+            width: 60px;
+            height: 80px;
+            border-radius: 50% 50% 40% 40% / 70% 70% 30% 30%; /* شكل بتلة مدورة اكثر */
+            transform-origin: bottom center;
+            opacity: 0; /* تبدا مخفية تماما */
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            animation: bloomNew 3s ease-in-out forwards; /* انيميشن جديد للتفتح */
+        }
+
+        /* توزيع البتلات في طبقات وزوايا مختلفة */
+        .petal:nth-child(1) { --angle: 0deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2s; z-index: 5; }
+        .petal:nth-child(2) { --angle: 45deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.1s; z-index: 5;}
+        .petal:nth-child(3) { --angle: 90deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.2s; z-index: 5;}
+        .petal:nth-child(4) { --angle: 135deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.3s; z-index: 5;}
+        .petal:nth-child(5) { --angle: 180deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.4s; z-index: 5;}
+        .petal:nth-child(6) { --angle: 225deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.5s; z-index: 5;}
+        .petal:nth-child(7) { --angle: 270deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.6s; z-index: 5;}
+        .petal:nth-child(8) { --angle: 315deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.7s; z-index: 5;}
+
+        /* طبقة ثانية من البتلات */
+        .petal:nth-child(9) { --angle: 20deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.8s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
+        .petal:nth-child(10) { --angle: 70deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 2.9s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
+        .petal:nth-child(11) { --angle: 120deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
+        .petal:nth-child(12) { --angle: 170deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3.1s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
+        .petal:nth-child(13) { --angle: 220deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3.2s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
+        .petal:nth-child(14) { --angle: 270deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3.3s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
+        .petal:nth-child(15) { --angle: 320deg; transform: rotate(var(--angle)) translateY(0) scale(0); animation-delay: 3.4s; z-index: 6; width: 50px; height: 70px; background: linear-gradient(to top, #e00, #ff8fa3);}
+
+        .center {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at center, #ffee99, #ffb703);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(255,238,153,0.8);
+            opacity: 0;
+            animation: fadeInCenter 1.5s ease-out 4s forwards;
+        }
+
+        /* حركات جديدة */
+        @keyframes riseUp {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes bloomNew {
+            0% {
+                transform: rotate(var(--angle)) translateY(0px) scale(0);
+                opacity: 0;
+            }
+            70% {
+                opacity: 1;
+                transform: rotate(var(--angle)) translateY(-20px) scale(1);
+            }
+            100% {
+                transform: rotate(var(--angle)) translateY(-25px) scale(1); /* تعديل بسيط في translateY باش تبقا مكوبة */
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInCenter {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="message">Anchdek Anhwik</div>
+
+    <div class="flower-container">
+        <div class="stem"></div>
+        <div class="flower">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="center"></div>
+        </div>
+    </div>
+
+</body>
+</html>
